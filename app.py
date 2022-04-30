@@ -1,9 +1,10 @@
+import os
 from dotenv import dotenv_values
 from flask import Flask, request
 from youtube_dl import YoutubeDL 
 
 env = dotenv_values()
-port = env.get('PORT',5000)
+port = env.get('PORT',os.environ.get('PORT', 5000))
 
 app = Flask(__name__)
 url = 'https://www.youtube.com/watch?v=vsGWMmNtWQY'
