@@ -1,7 +1,10 @@
+from dotenv import dotenv_values
 from flask import Flask, request
 from youtube_dl import YoutubeDL 
 
-PORT = 8080
+env = dotenv_values()
+port = env.get('PORT',5000)
+
 app = Flask(__name__)
 url = 'https://www.youtube.com/watch?v=vsGWMmNtWQY'
 
@@ -14,7 +17,6 @@ def home():
         media_url = info_dict['formats'][-1]['url']
         return f'media_url: {media_url}'
 
-
 @app.route('/d')
 def download():
     link = request.args.get('link', '')
@@ -24,5 +26,5 @@ def download():
         return f'media_url: {media_url}'
 
 if __name__ == '__main__':
-    print(f'serving at port http://127.0.0.1:{PORT}')
-    app.run(port=PORT)
+    port = int(port)
+    app.run(host='0.0.0.0', port=port)
